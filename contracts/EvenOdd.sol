@@ -4,8 +4,8 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./IMasterCard.sol";
-import "./ITokenCash.sol";
+import "./interfaces/IMasterCard.sol";
+import "./interfaces/ITokenCash.sol";
 
 contract EvenOdd is Ownable, ReentrancyGuard {
     ITokenCash public immutable _cash;

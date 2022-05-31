@@ -4,7 +4,8 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./ITokenCash.sol";
+import "./interfaces/ITokenCash.sol";
+
 contract TokenCash is ERC20, Ownable, ITokenCash {
 
     constructor (string memory name_, string memory symbol_) ERC20(name_, symbol_) {

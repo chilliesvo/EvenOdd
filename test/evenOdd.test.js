@@ -2,7 +2,6 @@ const chai = require("chai");
 const { expect } = require("chai");
 const { solidity } = require("ethereum-waffle");
 
-chai.use(solidity);
 describe("Testcase of EvenOdd: ", () => {
     const ONE_ETHER  ='1000000000000000000';
     const TWO_ETHERS  ='2000000000000000000';
@@ -14,15 +13,12 @@ describe("Testcase of EvenOdd: ", () => {
         [owner, addr1, addr2] = await ethers.getSigners();
         Token = await ethers.getContractFactory("TokenCash");
         token = await Token.deploy("Cash Coin", "CASH");
-        await token.deployed();   
         
         Ticket = await ethers.getContractFactory("MasterCard");
         ticket = await Ticket.deploy("MasterCard", "MTCASH");
-        await ticket.deployed(); 
 
         EvenOdd = await ethers.getContractFactory("EvenOdd");
         evenOdd = await EvenOdd.deploy(owner.address, ticket.address, token.address);
-        await evenOdd.deployed(); 
     });
     describe("Deployment", async () => {
         it("should be deployed with correct token and ticket", async () => {
