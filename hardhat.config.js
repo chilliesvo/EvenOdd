@@ -23,23 +23,19 @@ require('solidity-coverage')
 // Call internal function
 require('hardhat-exposed');
 
-
 const config = {
   defaultNetwork: 'hardhat',
   networks: {
     hardhat: {
-      accounts: { count: 300 },
-    },
-    localhost: {
-      chainId: 31337
+      accounts: { count: 10 },
     },
     rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts: [process.env.DEPLOY_ACCOUNT1, process.env.DEPLOY_ACCOUNT2, process.env.DEPLOY_ACCOUNT3],
+      url: process.env.RINKEBY_URL,
+      accounts: [process.env.DEPLOY_ACCOUNT],
     }
   },
   etherscan: {
-    apiKey: `${process.env.VERIFY_SCAN_KEY}`
+    apiKey: process.env.ETHERSCAN_API_KEY
   },
   solidity: {
     compilers: [
@@ -70,7 +66,7 @@ const config = {
       configFile: './mocha-report.json',
     },
   },
-  exposed: { prefix: 'eps' }
+  exposed: { prefix: '$' }
 };
 
 module.exports = config;
