@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat");
 const { expect } = require("chai");
 
-const ipfsMasterCard = "https://ipfs/";
+const ipfsMasterCard = "https://ipfs/.json";
 
 describe("Testcase of NFT MasterCard: ", () => {
   beforeEach(async () => {
@@ -18,17 +18,20 @@ describe("Testcase of NFT MasterCard: ", () => {
       expect(await ticket.name()).to.equal("MasterCard");
       expect(await ticket.symbol()).to.equal("MTCASH");
     });
+
     it("should balance of owner equal to total supply of ticket", async () => {
       const ownerBalance = await ticket.balanceOf(owner.address);
       expect(await ticket.totalSupply()).to.equal(ownerBalance);
     });
   });
+
   describe("Function: _baseURI", async () => {
     it("should return hollow string when just init ticket", async () => {
-      const baseURI = await ticket.baseURI();
+      const baseURI = await ticket._baseUri();
       expect(baseURI).to.equal("");
     });
   });
+
   describe("Function: setBaseURI", async () => {
     it("should be set base uri success by only owner", async () => {
       const tx = await ticket.setBaseURI(ipfsMasterCard);
@@ -37,6 +40,7 @@ describe("Testcase of NFT MasterCard: ", () => {
       expect(baseURI).to.equal(ipfsMasterCard);
     });
   });
+
   describe("Function: extend", async () => {
     it("should show message: 'You not have a ticket !' whem sender not have a ticket", async () => {
       await expect(ticket.extend(user2.address)).to.be.revertedWith(
@@ -66,6 +70,7 @@ describe("Testcase of NFT MasterCard: ", () => {
       );
     });
   });
+
   describe("Function: mint", async () => {
     it("should show message: 'You have a ticket !' whem sender have a ticket", async () => {
       const txm = await ticket.mint(user1.address);
@@ -81,6 +86,7 @@ describe("Testcase of NFT MasterCard: ", () => {
       expect(await ticket.balanceOf(user1.address)).to.equal(totalSupply);
     });
   });
+
   describe("Function: getDueDate", async () => {
     it("should return correct value expired day", async () => {
       const thirtyDays = 30 * 24 * 60 * 60;
