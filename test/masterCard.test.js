@@ -27,7 +27,7 @@ describe("Testcase of NFT MasterCard: ", () => {
 
   describe("Function: _baseURI", async () => {
     it("should return hollow string when just init ticket", async () => {
-      const baseURI = await ticket._baseUri();
+      const baseURI = await ticket.baseUri();
       expect(baseURI).to.equal("");
     });
   });
@@ -36,7 +36,7 @@ describe("Testcase of NFT MasterCard: ", () => {
     it("should be set base uri success by only owner", async () => {
       const tx = await ticket.setBaseURI(ipfsMasterCard);
       await tx.wait();
-      const baseURI = await ticket._baseUri();
+      const baseURI = await ticket.baseUri();
       expect(baseURI).to.equal(ipfsMasterCard);
     });
   });

@@ -8,8 +8,8 @@ import "./interfaces/IMasterCard.sol";
 import "./interfaces/ITokenCash.sol";
 
 contract EvenOdd is Ownable, ReentrancyGuard {
-    ITokenCash public immutable _cash;
     IMasterCard public immutable _ticket;
+    ITokenCash public immutable _cash;
 
     struct PlayerMetadata {
         uint256 betAmount;
@@ -35,7 +35,7 @@ contract EvenOdd is Ownable, ReentrancyGuard {
     }
 
     function transfer(uint256 amount) external onlyOwner {
-          require(_cash.transferFrom(msg.sender, address(this), amount), "transferFrom failed !");
+          require(_cash.transferFrom(_msgSender(), address(this), amount), "transferFrom failed !");
     }
 
     function withdraw(uint256 _amount) external onlyOwner {
@@ -46,8 +46,8 @@ contract EvenOdd is Ownable, ReentrancyGuard {
     }
 
     function bet(bool _isEven, uint256 amount) external nonReentrant {
-        require(_ticket.balanceOf(msg.sender) > 0, "You need to buy a ticket to play this game");
-        uint tokenId = _ticket.tokenOfOwnerByIndex(msg.sender, 0);
+        require(_ticket.balanceOf(_msgSender()) > 0, "You need to buy a ticket to play this game");
+        uint256 tokenId = _ticket.tokenOfOwnerByIndex(_msgSender(), 0);
         require(block.timestamp < _ticket.getDueDate(tokenId), "Your ticket is expired");
         require(!isAlreadyBet(_msgSender()), "Already bet");
         require(
@@ -64,7 +64,7 @@ contract EvenOdd is Ownable, ReentrancyGuard {
             _msgSender(),
             _isEven
         );
-        require(_cash.transferFrom(msg.sender, address(this), amount), "transferFrom failed !");
+        require(_cash.transferFrom(_msgSender(), address(this), amount), "transferFrom failed !");
         playersArray.push(_msgSender());
         totalBetAmount += amount;
         totalBetAmountPerRoll += amount;
